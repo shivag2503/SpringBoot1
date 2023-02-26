@@ -12,7 +12,7 @@ public class BookServiceImpl implements BookService{
     public BookServiceImpl(BookRepository bookRepository) {
         this.bookRepository = bookRepository;
     }
-    
+
     @Override
     public Iterable<Book> findAll() {
         return bookRepository.findAll();
