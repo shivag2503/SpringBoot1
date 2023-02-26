@@ -3,6 +3,7 @@ package com.barclays.practice.webapp.domain;
 import jakarta.persistence.*;
 
 import java.security.SecureRandom;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -15,7 +16,10 @@ public class Book {
     private String title;
     private String isbn;
 
-    private Set<Author> authors;
+    @ManyToMany
+    @JoinTable(name = "author_book", joinColumns = @JoinColumn(name = "book_id"),
+            inverseJoinColumns = @JoinColumn(name = "author_id"))
+    private Set<Author> authors = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -41,9 +45,6 @@ public class Book {
         this.isbn = isbn;
     }
 
-    @ManyToMany
-    @JoinTable(name = "author_book", joinColumns = @JoinColumn(name = "book_id"),
-        inverseJoinColumns = @JoinColumn(name = "author_id"))
     public Set<Author> getAuthors() {
         return authors;
     }
