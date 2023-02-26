@@ -2,8 +2,10 @@ package com.barclays.practice.webapp.bootstrap;
 
 import com.barclays.practice.webapp.domain.Author;
 import com.barclays.practice.webapp.domain.Book;
+import com.barclays.practice.webapp.domain.Publisher;
 import com.barclays.practice.webapp.repositories.AuthorRepository;
 import com.barclays.practice.webapp.repositories.BookRepository;
+import com.barclays.practice.webapp.repositories.PublisherRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -12,10 +14,13 @@ public class BootstrapData {
 
     private AuthorRepository authorRepository;
     private BookRepository bookRepository;
+    private PublisherRepository publisherRepository;
 
-    public BootstrapData(AuthorRepository authorRepository, BookRepository bookRepository) {
+    public BootstrapData(AuthorRepository authorRepository, BookRepository bookRepository,
+                         PublisherRepository publisherRepository) {
         this.authorRepository = authorRepository;
         this.bookRepository = bookRepository;
+        this.publisherRepository = publisherRepository;
     }
 
     CommandLineRunner commandLineRunner = (args) -> {
@@ -46,6 +51,15 @@ public class BootstrapData {
 
         authorRepository.save(ericSaved);
         authorRepository.save(rodSaved);
+
+        Publisher pragmatic = new Publisher();
+        pragmatic.setPublisherName("Pragmatic Programming");
+        pragmatic.setAddress("25B Gems Street");
+        pragmatic.setState("Rajasthan");
+        pragmatic.setCity("Udaipur");
+        pragmatic.setZip("313001");
+
+        Publisher pragmaticSaved = publisherRepository.save(pragmatic);
 
         System.out.println("In Bootstrap class:");
         System.out.println("Author count: " + authorRepository.count());
