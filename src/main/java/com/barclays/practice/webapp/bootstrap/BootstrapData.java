@@ -43,14 +43,12 @@ public class BootstrapData {
         noEJB.setTitle("J2EE Development without EJB");
         noEJB.setIsbn("789456");
 
+
         Author rodSaved = authorRepository.save(rod);
         Book noEJBSaved = bookRepository.save(noEJB);
 
         ericSaved.getBooks().add(dddSaved);
         rodSaved.getBooks().add(noEJBSaved);
-
-        authorRepository.save(ericSaved);
-        authorRepository.save(rodSaved);
 
         Publisher pragmatic = new Publisher();
         pragmatic.setPublisherName("Pragmatic Programming");
@@ -60,6 +58,14 @@ public class BootstrapData {
         pragmatic.setZip("313001");
 
         Publisher pragmaticSaved = publisherRepository.save(pragmatic);
+
+        dddSaved.setPublisher(pragmaticSaved);
+        noEJBSaved.setPublisher(pragmaticSaved);
+
+        authorRepository.save(ericSaved);
+        authorRepository.save(rodSaved);
+        bookRepository.save(dddSaved);
+        bookRepository.save(noEJBSaved);
 
         System.out.println("In Bootstrap class:");
         System.out.println("Author count: " + authorRepository.count());
