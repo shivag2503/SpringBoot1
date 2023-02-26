@@ -10,11 +10,11 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 @Component
-public class BootstrapData {
+public class BootstrapData implements CommandLineRunner {
 
-    private AuthorRepository authorRepository;
-    private BookRepository bookRepository;
-    private PublisherRepository publisherRepository;
+    private final AuthorRepository authorRepository;
+    private final BookRepository bookRepository;
+    private final PublisherRepository publisherRepository;
 
     public BootstrapData(AuthorRepository authorRepository, BookRepository bookRepository,
                          PublisherRepository publisherRepository) {
@@ -23,7 +23,8 @@ public class BootstrapData {
         this.publisherRepository = publisherRepository;
     }
 
-    CommandLineRunner commandLineRunner = (args) -> {
+    @Override
+    public void run(String... args) throws Exception {
         Author eric = new Author();
         eric.setFirstName("Eric");
         eric.setLastName("Evans");
@@ -49,6 +50,8 @@ public class BootstrapData {
 
         ericSaved.getBooks().add(dddSaved);
         rodSaved.getBooks().add(noEJBSaved);
+        dddSaved.getAuthors().add(ericSaved);
+        noEJBSaved.getAuthors().add(rodSaved);
 
         Publisher pragmatic = new Publisher();
         pragmatic.setPublisherName("Pragmatic Programming");
@@ -66,10 +69,5 @@ public class BootstrapData {
         authorRepository.save(rodSaved);
         bookRepository.save(dddSaved);
         bookRepository.save(noEJBSaved);
-
-        System.out.println("In Bootstrap class:");
-        System.out.println("Author count: " + authorRepository.count());
-        System.out.println("Book count: " + bookRepository.count());
-
-    };
+    }
 }
